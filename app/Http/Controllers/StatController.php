@@ -15,9 +15,13 @@ class StatController extends Controller
     public function index()
     {
         $stats = Stats::all();
-        $workouts = Workouts::all();
         $calories = Calories::all();
-        return view('progress.index', ['stats' => $stats], ['workouts' => $workouts], ['calories' => $calories],);
+        $workouts = Workouts::all();
+        return view('progress.index', [
+            'stats' => $stats,
+            'calories' => $calories,
+            'workouts' => $workouts
+        ]);
     }
 
     /**

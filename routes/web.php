@@ -10,10 +10,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard', ['calories' => $calories]);
-});
-
 Route::prefix('/calories')->group(function () {
     Route::get('', [CalorieController::class, 'index'])->name('calories.index');
     Route::get('/create', [CalorieController::class, 'create'])->name('calories.create');

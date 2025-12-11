@@ -18,11 +18,13 @@
     <div>
         @foreach($workouts as $w)
         <div>
-            @php
-                $totalWorkouts++;
-                $totalDuration = $totalDuration + $w->duration;
-                $totalCalBurned = $totalCalBurned + $w->calories_burned;
-            @endphp
+            @if($w->created_at->format('d F Y') == date('d F Y'))
+                @php
+                    $totalWorkouts++;
+                    $totalDuration = $totalDuration + $w->duration;
+                    $totalCalBurned = $totalCalBurned + $w->calories_burned;
+                @endphp
+            @endif
         </div>
         @endforeach
         <div class="row">
@@ -44,7 +46,7 @@
                     $x++;
                 @endphp
                 <div>
-                    <h5>{{$w->name}}</h5>
+                    <strong>{{$w->name}}</strong>
                 </div>
                 <div>
                     Duration : {{$w->duration}} min | Calories Burned : {{$w->calories_burned}} kcal | {{$w->type}}

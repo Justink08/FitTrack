@@ -11,6 +11,7 @@
         $totalProtein = 0;
         $totalCarbs = 0;
         $totalFats = 0;
+        $x = 0;
     @endphp
     <div>
         <h1>Today's Intake</h1>
@@ -18,12 +19,14 @@
     <div>
         @foreach($calories as $cal)
         <div>
-            @php
-                $totalCal = $totalCal + $cal->calorie;
-                $totalProtein = $totalProtein + $cal->protein;
-                $totalCarbs = $totalCarbs + $cal->carbs;
-                $totalFats = $totalFats + $cal->fats;
-            @endphp
+            @if($cal->created_at->format('d F Y') == date('d F Y'))
+                @php
+                    $totalCal = $totalCal + $cal->calorie;
+                    $totalProtein = $totalProtein + $cal->protein;
+                    $totalCarbs = $totalCarbs + $cal->carbs;
+                    $totalFats = $totalFats + $cal->fats;
+                @endphp
+            @endif
         </div>
         @endforeach
         <div class="row">
@@ -41,20 +44,33 @@
         </div>
         @forelse($calories as $cal)
         <div>
-            <h5>{{$cal->name}}</h5>
-        </div>
-        <div>
-           Calories : {{$cal->calorie}} kcal | P : {{$cal->protein}} g | C : {{$cal->carbs}} g | F : {{$cal->fats}} g | <strong>{{$cal->type}}</strong>
-        </div>
-        <div>
-            <form action="/calories/{{$cal->id}}" method="POST">
-                @csrf 
-                @method('DELETE')
-                <button type="submit">Delete</button>
-            </form>
+            @if($cal->created_at->format('d F Y') == date('d F Y'))
+                @php
+                    $x++;
+                @endphp
+                <div>
+                    <strong>{{$cal->name}}</strong>
+                </div>
+                <div>
+                  <strong>{{$cal->calorie}} kcal</strong> | P : {{$cal->protein}} g | C : {{$cal->carbs}} g | F : {{$cal->fats}} g | <strong>{{$cal->type}}</strong>
+                </div>
+                <div>
+                    <form action="/calories/{{$cal->id}}" method="POST">
+                        @csrf 
+                        @method('DELETE')
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            @else
+                @if($loop->last)
+                    @if($x == 0)
+                        <div>No meals logged.</div>
+                    @endif
+                @endif
+            @endif
         </div>
         @empty
-            <div>No meals logged</div>
+            <div>No meals logged.</div>
         @endforelse
     </div>
 </body>
