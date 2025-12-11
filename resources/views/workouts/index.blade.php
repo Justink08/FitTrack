@@ -16,8 +16,7 @@
         $x = 0;
     @endphp
     <div class="container-fluid">
-        <br>
-        <div>
+    <div>
         <h1>Today's Workouts</h1>
     </div>
     <div>
