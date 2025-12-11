@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="X-UA=Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>FitTrack</title>
 </head>
 <body>
+    @include('layout.header')
     @php
         $weeklyAvgCal = 0;
         $weeklyAvgBurned = 0;
@@ -19,6 +22,12 @@
         $totalDuration = 0;
         $totalCalBurned = 0;
         $caloriesRemaining = 0;
+        $statHeight = 0;
+        $statWeight = 0;
+        $statBMI = 0;
+        $DCG = 0;
+        $DPG = 0;
+        $BMI = 0;
     @endphp
     @foreach($calories as $cal)
         <div>
@@ -46,11 +55,14 @@
     @foreach($stats as $s)
         @if($loop->first)
             @php
+                $DCG = $s->daily_calorie_goal;
+                $DPG = $s->daily_protein_goal;
                 $caloriesRemaining = $s->daily_calorie_goal - $totalCal;
             @endphp
         @endif
     @endforeach
-    <div>
+    <div class="container-fluid">
+        <div>
         <h1>Welcome!</h1>
         @forelse($stats as $s)
             @if($loop->first)
@@ -69,9 +81,12 @@
         <strong>Net Calories: {{$netCalories}} kcal</strong><br>
         <strong>Workout Time: {{$totalDuration}} min</strong><br>
     </div>
+    <br>
     <div>
-        <h4>Recent Meal</h4>
+        <hr>
+        <h3>Recent Meal</h3>
     </div>
+    <br>
         @forelse($calories as $cal)
             @if($loop->last)
                 <div>
@@ -81,9 +96,12 @@
         @empty
             <div>No meals logged.</div>
         @endforelse
+        <br>
     <div>
-        <h4>Recent Workout</h4>
+        <hr>
+        <h3>Recent Workout</h3>
     </div>
+    <br>
         @forelse($workouts as $w)
             @if($loop->last)
                 <div>
@@ -93,10 +111,13 @@
         @empty
             <div>No workout history yet!</div>
         @endforelse
+        <br>
     <div>
+        <hr>
         <h2>Progress & Analytics</h2>
         <strong>Track your fitness journey</strong>
     </div>
+    <br>
     <div>
         @forelse($stats as $s)
             @if($loop->first)
@@ -106,7 +127,29 @@
         @endforelse
     </div>
     <div>
-        
+        @foreach($stats as $s)
+            @if($loop->first)
+                @php
+                    $statHeight = $s->height / 100;
+                    $statWeight = $s->weight;
+                    $statBMI = $statWeight / pow($statHeight, 2);
+                    $BMI = number_format($statBMI, 1);
+                @endphp
+            @endif
+        @endforeach
     </div>
+    <br>
+    <div>
+        <hr>
+        <h3>Your Stats</h3>
+        <p><strong>Weight: </strong>{{$statWeight}} kg</p>
+        <p><strong>Height: </strong>{{$statHeight * 100}} cm</p>
+        <p><strong>Daily Calorie Goal: </strong>{{$DCG}} kcal</p>
+        <p><strong>Daily Protein Goal: </strong>{{$DPG}} g</p>
+        <p><strong>BMI: </strong>{{$BMI}}</p>
+    </div>
+    </div>
+
+    
 </body>
 </html>

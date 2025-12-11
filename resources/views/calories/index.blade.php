@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="X-UA=Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>FitTrack - Calories</title>
 </head>
 <body>
+    @include('layout.header')
     @php
         $totalCal = 0;
         $totalProtein = 0;
@@ -13,6 +16,7 @@
         $totalFats = 0;
         $x = 0;
     @endphp
+    <div class="container-fluid">
     <div>
         <h1>Today's Intake</h1>
     </div>
@@ -35,11 +39,11 @@
             <div class="col-md-1">Carbs: {{$totalCarbs}} g</div>
             <div class="col-md-1">Fats: {{$totalFats}} g</div>
         </div>
-        <br>
         <div>
             <a href="/calories/create">+ Add Meal</a>
         </div>
         <div>
+            <hr>
             <h4>Today's Meal</h4>
         </div>
         @forelse($calories as $cal)
@@ -69,9 +73,11 @@
                 @endif
             @endif
         </div>
+        <br>
         @empty
             <div>No meals logged.</div>
         @endforelse
+    </div>
     </div>
 </body>
 </html>

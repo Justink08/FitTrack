@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="X-UA=Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>FitTrack - Workouts</title>
 </head>
 <body>
+    @include('layout.header')
     @php
         $totalWorkouts = 0;
         $totalDuration = 0;
         $totalCalBurned = 0;
         $x = 0;
     @endphp
-    <div>
+    <div class="container-fluid">
+        <br>
+        <div>
         <h1>Today's Workouts</h1>
     </div>
     <div>
@@ -37,6 +42,7 @@
             <a href="/workouts/create">+ Log Workout</a>
         </div>
         <div>
+            <hr>
             <h4>Today's Activity</h4>
         </div>
         @forelse($workouts as $w)
@@ -70,6 +76,7 @@
             <div>No workouts logged yet. Start tracking your fitness journey!</div>
         @endforelse
         <div>
+            <hr>
             <h4>Recent History</h4>
         </div>
         @forelse($workouts as $w)
@@ -81,6 +88,7 @@
         @empty
             <div>No workout history yet!</div>
         @endforelse
+    </div>
     </div>
 </body>
 </html>
