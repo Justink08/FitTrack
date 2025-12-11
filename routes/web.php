@@ -33,7 +33,7 @@ Route::get('/', [StatController::class, 'create']);
 Route::prefix('/progress')->group(function () {
     Route::get('', [StatController::class, 'index'])->name('progress.index');
     Route::get('/{stats}/edit', [StatController::class, 'edit'])->name('progress.edit');
-    Route::put('/{stats}', [StatController::class, 'update'])->name('progress.update');
+    Route::put('/{stats}/update', [StatController::class, 'update'])->name('progress.update');
 });
 
 ?>

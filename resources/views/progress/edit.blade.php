@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <form action="/progress/{{$stats->s_id}}" method="POST">
+    <form action="{{route('progress.update', ['stats' => $stats])}}" method="POST">
         @csrf
         @method('PUT')
         <div>
