@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stats;
+use App\Models\Workouts;
+use App\Models\Calories;
 use Illuminate\Http\Request;
 
 class StatController extends Controller
@@ -12,7 +14,10 @@ class StatController extends Controller
      */
     public function index()
     {
-        return view('progress.index');
+        $stats = Stats::all();
+        $workouts = Workouts::all();
+        $calories = Calories::all();
+        return view('progress.index', ['stats' => $stats], ['workouts' => $workouts], ['calories' => $calories],);
     }
 
     /**
@@ -20,7 +25,7 @@ class StatController extends Controller
      */
     public function create()
     {
-        $stats = new Stats();
+        $stats = new Stats;
         $stats->weight = 70;
         $stats->height = 170;
         $stats->age = 30;
@@ -51,7 +56,7 @@ class StatController extends Controller
      */
     public function edit(Stats $stats)
     {
-        $stats = Stats::find(1);
+        $stats = Stats::findOrFail($stats->id);
         return view('progress.edit', compact('stats'));
     }
 
@@ -69,10 +74,10 @@ class StatController extends Controller
             'daily_protein_goal' => 'required',
         ]);
 
-        $stats = Stats::find(1);
+        $stats = Stats::findOrFail($stats->id);
         $stats->update($validateData);
 
-        return redirect()->route('progress.index');
+        return redirect()->route('progress.index', ['stats'=>$stats->id]);
     }
 
     /**
