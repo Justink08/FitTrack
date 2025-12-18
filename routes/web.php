@@ -10,6 +10,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/seed-stats', [StatController::class, 'create'])->name('stats.seed');
+
 Route::prefix('/calories')->group(function () {
     Route::get('', [CalorieController::class, 'index'])->name('calories.index');
     Route::get('/create', [CalorieController::class, 'create'])->name('calories.create');

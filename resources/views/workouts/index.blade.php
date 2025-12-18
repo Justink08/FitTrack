@@ -1,93 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA=Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <title>FitTrack - Workouts</title>
-</head>
-<body>
-    @include('layout.header')
-    @php
-        $totalWorkouts = 0;
-        $totalDuration = 0;
-        $totalCalBurned = 0;
-        $x = 0;
-    @endphp
-    <div class="container-fluid">
-    <div>
-        <h1>Today's Workouts</h1>
-    </div>
-    <div>
-        @foreach($workouts as $w)
-        <div>
-            @if($w->created_at->format('d F Y') == date('d F Y'))
-                @php
-                    $totalWorkouts++;
-                    $totalDuration = $totalDuration + $w->duration;
-                    $totalCalBurned = $totalCalBurned + $w->calories_burned;
-                @endphp
-            @endif
-        </div>
-        @endforeach
-        <div class="row">
-            <div class="col-md-1">Workouts: {{$totalWorkouts}} session(s)</div>
-            <div class="col-md-1">Duration: {{$totalDuration}} min</div>
-            <div class="col-md-1">Calories Burned: {{$totalCalBurned}} kcal</div>
-        </div>
-        <br>
-        <div>
-            <a href="/workouts/create">+ Log Workout</a>
-        </div>
-        <div>
-            <hr>
-            <h4>Today's Activity</h4>
-        </div>
-        @forelse($workouts as $w)
-        <div>
-            @if($w->created_at->format('d F Y') == date('d F Y'))
-                @php
-                    $x++;
-                @endphp
+@extends('layout.app')
+
+@section('title', 'Workouts')
+
+@section('content')
+@php
+    $workouts = $workouts ?? collect();
+    $todayWorkouts = $workouts->filter(function($w){ return $w->created_at->format('d F Y') == date('d F Y'); });
+    $totalWorkouts = $todayWorkouts->count();
+    $totalDuration = $todayWorkouts->sum('duration');
+    $totalCalBurned = $todayWorkouts->sum('calories_burned');
+    $x = $todayWorkouts->count();
+@endphp
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Today's Workouts</h1>
+    <a href="{{ route('workouts.create') }}" class="btn btn-primary">+ Log Workout</a>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-4">Workouts: <strong>{{ $totalWorkouts }} session(s)</strong></div>
+    <div class="col-md-4">Duration: <strong>{{ $totalDuration }} min</strong></div>
+    <div class="col-md-4">Calories Burned: <strong>{{ $totalCalBurned }} kcal</strong></div>
+</div>
+
+<div>
+    <hr>
+    <h4>Today's Activity</h4>
+</div>
+
+@if($todayWorkouts->isEmpty())
+    <div class="muted">No workouts logged yet. Start tracking your fitness journey!</div>
+@else
+    <ul class="list-group">
+        @foreach($todayWorkouts as $w)
+            <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <strong>{{$w->name}}</strong>
+                    <strong>{{ $w->name }}</strong><br>
+                    <small class="muted">{{ $w->created_at->format('d M Y H:i') }}</small>
                 </div>
                 <div>
-                    Duration : {{$w->duration}} min | Calories Burned : {{$w->calories_burned}} kcal | {{$w->type}}
-                </div>
-                <div>
-                    <form action="/workouts/{{$w->id}}" method="POST">
-                        @csrf 
+                    <span>Duration: <strong>{{ $w->duration }} min</strong></span>
+                    <form action="{{ route('workouts.destroy', ['workouts' => $w->id]) }}" method="POST" class="d-inline ms-3">
+                        @csrf
                         @method('DELETE')
-                        <button type="submit">Delete</button>
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
                     </form>
                 </div>
-            @else
-                @if($loop->last)
-                    @if($x == 0)
-                        <div>No workouts logged yet. Start tracking your fitness journey!</div>
-                    @endif
-                @endif
-            @endif
-        </div>
-        @empty
-            <div>No workouts logged yet. Start tracking your fitness journey!</div>
-        @endforelse
-        <div>
-            <hr>
-            <h4>Recent History</h4>
-        </div>
-        @forelse($workouts as $w)
-            @if($loop->last)
-                <div>
-                    <strong>{{$w->name}}</strong> | {{$w->created_at->format('d F Y')}} | Duration : {{$w->duration}} min | Calories Burned : {{$w->calories_burned}} kcal | {{$w->type}}
-                </div>
-            @endif
-        @empty
-            <div>No workout history yet!</div>
-        @endforelse
-    </div>
-    </div>
-</body>
-</html>
+            </li>
+        @endforeach
+    </ul>
+@endif
+
+@endsection

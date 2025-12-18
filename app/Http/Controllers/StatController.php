@@ -31,6 +31,9 @@ class StatController extends Controller
         $stats->daily_calorie_goal = 2000;
         $stats->daily_protein_goal = 150;
         $stats->save();
+
+        // Return a redirect so the route returns a valid response and does not cause unexpected rendering issues
+        return redirect()->route('progress.index');
     }
 
     public function edit(Stats $stats)
