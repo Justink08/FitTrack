@@ -214,11 +214,21 @@
                 <h5>Your Stats</h5>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Weight:</strong> {{ $stats->first()->weight ?? '-' }} kg</li>
-                <li class="list-group-item"><strong>Height:</strong> {{ $stats->first()->height ?? '-' }} cm</li>
-                <li class="list-group-item"><strong>Daily Calorie Goal:</strong> {{ $DCG }} kcal</li>
-                <li class="list-group-item"><strong>Daily Protein Goal:</strong> {{ $DPG }} g</li>
-                <li class="list-group-item"><strong>BMI:</strong> @php $h = ($stats->first()->height ?? 0); $w = ($stats->first()->weight ?? 0); $bmi = ($h && $w) ? number_format(($w / (($h/100)*($h/100))),1) : '-'; echo $bmi; @endphp</li>
+                <li class="list-group-item"><strong>Weight:</strong> <big>{{ $stats->first()->weight ?? '-' }}</big> kg</li>
+                <li class="list-group-item"><strong>Height:</strong> <big>{{ $stats->first()->height ?? '-' }}</big> cm</li>
+                <li class="list-group-item"><strong>Daily Calorie Goal:</strong> <big>{{ $DCG }}</big> kcal</li>
+                <li class="list-group-item"><strong>Daily Protein Goal:</strong> <big>{{ $DPG }}</big> g</li>
+                <li class="list-group-item"><strong>BMI:</strong> <big>@php $h = ($stats->first()->height ?? 0); $w = ($stats->first()->weight ?? 0); $bmi = ($h && $w) ? number_format(($w / (($h/100)*($h/100))),1) : '-'; echo $bmi; @endphp</big></li>
+                <li class="list-group-item"><strong>BMI Category:</strong> <big style="color: {{ $bmi < 18.5 ? 'blue' : ($bmi < 24.9 ? 'green' : ($bmi < 29.9 ? 'orange' : 'red')) }}">
+                    <strong>
+                        @php
+                            if ($bmi < 18.5) { echo 'Underweight'; }
+                            elseif ($bmi < 24.9) { echo 'Normal'; }
+                            elseif ($bmi < 29.9) { echo 'Overweight'; }
+                            else { echo 'Obesity'; }
+                        @endphp
+                    </strong>
+                </big></li>
             </ul>
         </div>
     </div>

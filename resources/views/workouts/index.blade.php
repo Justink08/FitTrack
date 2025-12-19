@@ -17,11 +17,25 @@
     <a href="{{ route('workouts.create') }}" class="btn btn-primary">+ Log Workout</a>
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-4">Workouts: <strong>{{ $totalWorkouts }} session(s)</strong></div>
-    <div class="col-md-4">Duration: <strong>{{ $totalDuration }} min</strong></div>
-    <div class="col-md-4">Calories Burned: <strong>{{ $totalCalBurned }} kcal</strong></div>
-</div>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Workouts</div>
+            <h3 class="text-info">{{ $totalWorkouts }} session(s)</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Duration</div>
+            <h3 class="text-danger">{{ $totalDuration }} min</h3>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Calories Burned</div>
+            <h3 class="text-warning">{{ $totalCalBurned }} kcal</h3>
+        </div>
+    </div>
 
 <div>
     <hr>

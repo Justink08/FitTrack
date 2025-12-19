@@ -18,11 +18,31 @@
     <a href="{{ route('calories.create') }}" class="btn btn-primary">+ Add Meal</a>
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-3">Calories: <strong>{{ $totalCal }} kcal</strong></div>
-    <div class="col-md-3">Protein: <strong>{{ $totalProtein }} g</strong></div>
-    <div class="col-md-3">Carbs: <strong>{{ $totalCarbs }} g</strong></div>
-    <div class="col-md-3">Fats: <strong>{{ $totalFats }} g</strong></div>
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Calories</div>
+            <h3 class="text-success">{{ $totalCal }} kcal</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Protein</div>
+            <h3 class="text" style="color: #c507ffff;">{{ $totalProtein }} g</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Carbs</div>
+            <h3 class="text" style="color: #f66d04ff;">{{ $totalCarbs }} g</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100 p-3 text-center">
+            <div class="muted">Total Fats</div>
+            <h3 class="text" style="color: #ff0191ff;">{{ $totalFats }} g</h3>
+        </div>
+    </div>
 </div>
 
 <div>
